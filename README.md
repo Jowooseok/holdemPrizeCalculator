@@ -7,12 +7,7 @@ https://holdemprizecalculator.web.app/
 
 
 ## Image
-<img src="https://www.notion.so/a0120761918a4839a3273abf99668292#6d9dd0f448f041b089bdc2b57018723a"> 
-<img src="https://www.notion.so/a0120761918a4839a3273abf99668292#57a4a0216a7c4aeab28ca3009dcd5245"> 
-<img src="https://www.notion.so/a0120761918a4839a3273abf99668292#74e90a08cc39491f857cb0621095fc59"> 
-<img src="https://www.notion.so/a0120761918a4839a3273abf99668292#5c9deac5cee7422a987cef7c9357412b"> 
-
-
+![DEMO1](./img/demo1) ![DEMO1](./img/demo2) ![DEMO1](./img/demo3) ![DEMO1](./img/demo4)
 
 
 ## Available Scripts
