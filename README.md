@@ -7,7 +7,7 @@ https://holdemprizecalculator.web.app/
 
 
 ## Image
-![DEMO1](./img/demo1) ![DEMO1](./img/demo2) ![DEMO1](./img/demo3) ![DEMO1](./img/demo4)
+![DEMO1](./img/demo1.png) ![DEMO1](./img/demo2.png) ![DEMO1](./img/demo3.png) ![DEMO1](./img/demo4.png)
 
 
 ## Available Scripts
