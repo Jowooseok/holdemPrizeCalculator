@@ -48,7 +48,7 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 320,
-    height: 320,
+    height: 330,
     bgcolor: 'background.paper',
     boxShadow: 24,
     p: 4,
@@ -68,6 +68,7 @@ function App() {
     const [fourthPlayerPrize, setFourthPlayerPrize] = useState(0);
     const [fifthPlayerPrize, setFifthPlayerPrize] = useState(0);
     const [totalPrize, setTotalPrize] = useState(0);
+    const [u, setU] = useState(10000);
 
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -135,9 +136,7 @@ function App() {
             alert("총 프라이즈를 0이상 입력해주세요!")
         }
     }
-
-    const u = 10000;
-
+    
     return (
         <div className="App" style={{backgroundColor: "rgba(245,245,245,0.8)"}}>
             <link
@@ -158,23 +157,23 @@ function App() {
                 >
                     <Box sx={style}>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            계산 결과(천반올림)
+                            계산 결과({u===10000?"만단위 계산":"일단위 계산"})
                         </Typography>
                         <Divider/>
                         <br />
                         <Row>
                             <Col span={6}><Typography variant={"subtitle1"}>1p</Typography> </Col>
-                            <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{Math.round(firstPlayerPrize/u)*u} ₩</Typography></Row></Col>
+                            <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{(Math.round(firstPlayerPrize/u)*u).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Typography></Row></Col>
                         </Row>
                         <Row>
                             <Col span={6}><Typography variant={"subtitle1"}>2p</Typography> </Col>
-                            <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{Math.round(secondPlayerPrize/u)*u} ₩</Typography></Row></Col>
+                            <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{(Math.round(secondPlayerPrize/u)*u).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Typography></Row></Col>
                         </Row>
                         {
                             playerNumber>=3 ?
                                 <Row>
                                 <Col span={6}><Typography variant={"subtitle1"}>3p</Typography> </Col>
-                                <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{Math.round(thirdPlayerPrize/u)*u} ₩</Typography></Row></Col>
+                                <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{(Math.round(thirdPlayerPrize/u)*u).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Typography></Row></Col>
                                 </Row>
                             :
                             <></>
@@ -183,7 +182,7 @@ function App() {
                             playerNumber>=4 ?
                                 <Row>
                                     <Col span={6}><Typography variant={"subtitle1"}>4p</Typography> </Col>
-                                    <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{Math.round(fourthPlayerPrize/u)*u} ₩</Typography></Row></Col>
+                                    <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{(Math.round(fourthPlayerPrize/u)*u).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Typography></Row></Col>
                                 </Row>
                                 :
                                 <></>
@@ -192,26 +191,36 @@ function App() {
                             playerNumber>=5 ?
                                 <Row>
                                     <Col span={6}><Typography variant={"subtitle1"}>5p</Typography> </Col>
-                                    <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{Math.round(fifthPlayerPrize/u)*u} ₩</Typography></Row></Col>
+                                    <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{(Math.round(fifthPlayerPrize/u)*u).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} </Typography></Row></Col>
                                 </Row>
                                 :
                                 <></>
                         }
                         <Divider />
                         <Row>
-                            <Col span={6}><Typography variant={"subtitle1"}>합계</Typography> </Col>
-                            <Col span={18}><Row justify={"end"}><Typography variant={"body1"}>{
+                            <Col span={6}><Typography variant={"subtitle1"}><b>합계</b></Typography> </Col>
+                            <Col span={18}><Row justify={"end"}><Typography variant={"body1"}><b>{
 
+                                (
                                 (Math.round(fifthPlayerPrize/u)*u)
                                 + (Math.round(fourthPlayerPrize/u)*u)
                                 + (Math.round(thirdPlayerPrize/u)*u)
                                 + (Math.round(secondPlayerPrize/u)*u)
                                 + (Math.round(firstPlayerPrize/u)*u)
+                                ).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
-                            } ₩</Typography></Row></Col>
+                            }</b> </Typography></Row></Col>
                         </Row>
 
-                        <Button variant={"contained"} style={{position:"absolute",bottom:10, right:10, backgroundColor:"black"}} onClick={()=>{
+
+                        <Button variant={"contained"} style={{position:"absolute",bottom:20, left:20, backgroundColor:"black"}} onClick={()=>{
+                            if(u === 10000){
+                                setU(1);
+                            }else {
+                                setU(10000);                                }
+                            }
+                        }>{u===10000?"일단위 계산":"만단위 계산"}</Button>
+                        <Button variant={"contained"} style={{position:"absolute",bottom:20, right:20, backgroundColor:"black"}} onClick={()=>{
                             handleClose();
                         }}>확인</Button>
                     </Box>
@@ -251,9 +260,9 @@ function App() {
                                               type={"number"} onChange={(e) => {
                                     setTotalPrize(e.target.value * 1);
                                 }}
-                                              InputProps={{
-                                                  endAdornment: <InputAdornment position="end">₩</InputAdornment>,
-                                              }}
+                                              // InputProps={{
+                                              //     endAdornment: <InputAdornment position="end">₩</InputAdornment>,
+                                              // }}
                                 >
                                 </CssTextField>
                             </Row>
@@ -261,18 +270,59 @@ function App() {
                             <div>
                                 <Typography variant={"subtitle1"}>플레이어수 선택</Typography>
                                 <ButtonGroup variant="contained">
-                                    <Button style={{backgroundColor: "black", borderColor: "white"}} onClick={() => {
-                                        setPlayerNumber(2);
-                                    }}>2P</Button>
-                                    <Button style={{backgroundColor: "black", borderColor: "white"}} onClick={() => {
-                                        setPlayerNumber(3);
-                                    }}>3P</Button>
-                                    <Button style={{backgroundColor: "black", borderColor: "white"}} onClick={() => {
-                                        setPlayerNumber(4);
-                                    }}>4P</Button>
-                                    <Button style={{backgroundColor: "black", borderColor: "white"}} onClick={() => {
-                                        setPlayerNumber(5);
-                                    }}>5P</Button>
+
+                                    {
+                                        playerNumber === 2 ?
+                                            <Button style={{backgroundColor: "black", borderColor: "white"}}
+                                                    onClick={() => {
+                                                        setPlayerNumber(2);
+                                                    }}>2P</Button>
+                                            :
+                                            <Button style={{backgroundColor: "grey", borderColor: "white"}}
+                                                    onClick={() => {
+                                                        setPlayerNumber(2);
+                                                    }}>2P</Button>
+
+                                    }
+                                    {
+                                        playerNumber === 3 ?
+                                            <Button style={{backgroundColor: "black", borderColor: "white"}}
+                                                    onClick={() => {
+                                                        setPlayerNumber(3);
+                                                    }}>3P</Button>
+                                            :
+                                            <Button style={{backgroundColor: "grey", borderColor: "white"}}
+                                                    onClick={() => {
+                                                        setPlayerNumber(3);
+                                                    }}>3P</Button>
+
+                                    }
+                                    {
+                                        playerNumber === 4 ?
+                                            <Button style={{backgroundColor: "black", borderColor: "white"}}
+                                                    onClick={() => {
+                                                        setPlayerNumber(4);
+                                                    }}>4P</Button>
+                                            :
+                                            <Button style={{backgroundColor: "grey", borderColor: "white"}}
+                                                    onClick={() => {
+                                                        setPlayerNumber(4);
+                                                    }}>4P</Button>
+
+                                    }
+                                    {
+                                        playerNumber === 5 ?
+                                            <Button style={{backgroundColor: "black", borderColor: "white"}}
+                                                    onClick={() => {
+                                                        setPlayerNumber(5);
+                                                    }}>5P</Button>
+                                            :
+                                            <Button style={{backgroundColor: "grey", borderColor: "white"}}
+                                                    onClick={() => {
+                                                        setPlayerNumber(5);
+                                                    }}>5P</Button>
+
+                                    }
                                 </ButtonGroup>
                             </div>
                             <br/>
@@ -283,7 +333,7 @@ function App() {
                                               onChange={(e) => {
                                                   setFirstPlayerChip(e.target.value * 1);
                                               }} InputProps={{
-                                    endAdornment: <InputAdornment position="end">개</InputAdornment>,
+                                    endAdornment: <InputAdornment position="end">칩</InputAdornment>,
                                 }} on />
 
                                 <CssTextField variant={"standard"} fullWidth={true} placeholder="2P 칩수" type={"number"}
@@ -292,7 +342,7 @@ function App() {
                                                   setSecondPlayerChip(e.target.value * 1);
                                               }}
                                               InputProps={{
-                                                  endAdornment: <InputAdornment position="end">개</InputAdornment>,
+                                                  endAdornment: <InputAdornment position="end">칩</InputAdornment>,
                                               }}/>
 
                                 {playerNumber >= 3 ?
@@ -302,7 +352,7 @@ function App() {
                                         setThirdPlayerChip(e.target.value * 1);
                                     }}
                                                   InputProps={{
-                                                      endAdornment: <InputAdornment position="end">개</InputAdornment>,
+                                                      endAdornment: <InputAdornment position="end">칩</InputAdornment>,
                                                   }}/> : <></>}
 
                                 {playerNumber >= 4 ?
@@ -312,7 +362,7 @@ function App() {
                                         setFourthPlayerChip(e.target.value * 1);
                                     }}
                                                   InputProps={{
-                                                      endAdornment: <InputAdornment position="end">개</InputAdornment>,
+                                                      endAdornment: <InputAdornment position="end">칩</InputAdornment>,
                                                   }}/> : <></>}
 
                                 {playerNumber >= 5 ?
@@ -322,7 +372,7 @@ function App() {
                                         setFifthPlayerChip(e.target.value * 1);
                                     }}
                                                   InputProps={{
-                                                      endAdornment: <InputAdornment position="end">개</InputAdornment>,
+                                                      endAdornment: <InputAdornment position="end">칩</InputAdornment>,
                                                   }}/> : <></>}
 
                             </div>
@@ -335,11 +385,20 @@ function App() {
                     </Paper>
                 </div>
                 <div style={{height:100}}></div>
+                <Col xs={24} sm={0}>
                 <Box style={{height:90, width:"100%", backgroundImage:`url("${backImage3}")`, backgroundSize:"cover", marginTop:20, bottom:0}}>
                     <div style={kBackgroundG}>
                         <Row justify={"end"} align={'bottom'} style={{height:"100%"}}><Typography variant={"caption"} style={{color:"white", marginBottom:10, marginRight:10}}>광고 및 기술 문의 / jrun2ng@gmail.com</Typography> </Row>
                     </div>
                 </Box>
+                </Col>
+                <Col xs={0} sm={24}>
+                    <Box  position={'fixed'} style={{height:90, width:"100%", backgroundImage:`url("${backImage3}")`, backgroundSize:"cover", marginTop:20, bottom:0}}>
+                        <div style={kBackgroundG}>
+                            <Row justify={"end"} align={'bottom'} style={{height:"100%"}}><Typography variant={"caption"} style={{color:"white", marginBottom:10, marginRight:10}}>광고 및 기술 문의 / jrun2ng@gmail.com</Typography> </Row>
+                        </div>
+                    </Box>
+                </Col>
             </div>
         </div>
     );
